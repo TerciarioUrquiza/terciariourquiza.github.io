@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Un clasificador de granos · Alfabetización en IA</title>
+<style>
+  :root { --azul-oscuro: #1b365d; --azul: #0066cc; --amarillo: #ffd200; --fondo: #f2f5f8; --texto: #1f2a37; --linea: #d9e0e8; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--fondo); color: var(--texto); font-family: "DejaVu Sans", "Segoe UI", Arial, sans-serif; line-height: 1.55; }
+  header { background: var(--azul-oscuro); color: #fff; padding: 22px 16px; border-top: 6px solid var(--azul); }
+  header .contenido, main { max-width: 860px; margin: 0 auto; }
+  header h1 { margin: 0 0 6px; font-size: 1.6em; }
+  header p { margin: 0; color: #d6e2f0; }
+  main { padding: 16px; }
+  section { background: #fff; border: 1px solid var(--linea); border-radius: 10px; padding: 14px 18px; margin-bottom: 16px; }
+  h2 { margin: 0 0 8px; color: var(--azul-oscuro); font-size: 1.2em; border-bottom: 3px solid var(--amarillo); padding-bottom: 4px; }
+  ol, ul { padding-left: 1.3em; } li { margin-bottom: 6px; }
+  a { color: var(--azul); }
+  a.boton { display: inline-block; background: var(--azul-oscuro); color: #fff; text-decoration: none; padding: 9px 16px; border-radius: 6px; margin: 4px 8px 4px 0; }
+  .fotos { display: flex; gap: 10px; flex-wrap: wrap; margin: 8px 0; }
+  .fotos figure { margin: 0; text-align: center; font-size: 0.85em; }
+  .fotos img { width: 110px; height: 110px; border-radius: 6px; display: block; }
+  .nota { background: var(--fondo); border-left: 4px solid var(--amarillo); padding: 8px 12px; margin: 10px 0; font-size: 0.95em; }
+  details { margin-top: 8px; } summary { cursor: pointer; color: var(--azul-oscuro); font-weight: bold; }
+  .chico { font-size: 0.85em; color: #5b6b7d; }
+</style>
+</head>
+<body>
+<header><div class="contenido">
+  <h1>Un clasificador de granos</h1>
+  <p>Entrenar un modelo con fotos de granos de soja, sin código, y ver dónde falla. Clase 2 · Curso introductorio (A1) · Terciario Urquiza N.° 49</p>
+</div></header>
+<main>
+
+<section>
+  <h2>Qué vamos a hacer</h2>
+  <p>Entrenar un clasificador que distinga granos <b>sanos</b> de granos <b>dañados</b> a partir de fotos, con <a href="https://teachablemachine.withgoogle.com/" target="_blank" rel="noopener">Teachable Machine</a>, una herramienta de Google que funciona en el navegador y no pide crear una cuenta. Después lo vamos a poner a prueba con tres desafíos, para ver qué aprendió y qué no.</p>
+  <div class="fotos">
+    <figure><img src="muestras/sano.jpg" alt="Grano de soja sano"><figcaption>Sano</figcaption></figure>
+    <figure><img src="muestras/manchado.jpg" alt="Grano de soja manchado"><figcaption>Dañado (manchado)</figcaption></figure>
+    <figure><img src="muestras/partido.jpg" alt="Grano de soja partido"><figcaption>Dañado (partido)</figcaption></figure>
+    <figure><img src="muestras/fondo.jpg" alt="Grano sobre fondo blanco"><figcaption>Otro fondo</figcaption></figure>
+    <figure><img src="muestras/no-visto.jpg" alt="Grano con la piel dañada"><figcaption>Daño no visto</figcaption></figure>
+  </div>
+  <a class="boton" href="granos-soja.zip" download>Descargar las fotos (ZIP, 2 MB)</a>
+  <p class="chico">Descomprimí el archivo antes de empezar. Adentro hay una carpeta por paso.</p>
+</section>
+
+<section>
+  <h2>1. Entrenar</h2>
+  <ol>
+    <li>Abrí <a href="https://teachablemachine.withgoogle.com/train/image" target="_blank" rel="noopener">Teachable Machine, proyecto de imagen</a> y elegí el modelo de imagen estándar.</li>
+    <li>Cambiá el nombre de la primera clase por <b>Sano</b>. Usá la opción para subir imágenes y elegí todas las fotos de <code>entrenamiento/sano</code>.</li>
+    <li>Cambiá el nombre de la segunda clase por <b>Dañado</b> y subí todas las fotos de <code>entrenamiento/danado</code>.</li>
+    <li>Tocá <b>Entrenar modelo</b> y esperá. No cierres la pestaña mientras entrena.</li>
+  </ol>
+  <p class="chico">Los nombres de los botones pueden cambiar un poco según la versión de la herramienta.</p>
+</section>
+
+<section>
+  <h2>2. Probar con granos que no vio</h2>
+  <p>En la vista previa, cambiá la entrada de la cámara a <b>archivo</b> y subí, de a una, las fotos de la carpeta <code>prueba</code>. Anotá qué dice el modelo para cada una y con qué seguridad.</p>
+  <p>Debería acertar casi siempre: son granos parecidos a los del entrenamiento, fotografiados igual.</p>
+</section>
+
+<section>
+  <h2>3. Desafíos</h2>
+  <ul>
+    <li><b>Otro fondo.</b> Subí las fotos de <code>desafio-fondo</code>: son los mismos granos de la prueba, con el fondo negro cambiado por blanco. ¿Sigue acertando? Si se equivoca, ¿qué había aprendido, además de los granos?</li>
+    <li><b>Lo que no vio.</b> Subí las fotos de <code>desafio-no-visto</code>: granos con la piel dañada, un tipo de daño que no estaba entre los ejemplos. ¿Qué dice? ¿Por qué?</li>
+    <li><b>Desbalance.</b> Empezá un proyecto nuevo y entrená con <code>desafio-desbalance</code>: 30 sanos y solo 3 dañados. Volvé a probar con la carpeta <code>prueba</code>. ¿Qué cambia?</li>
+  </ul>
+  <div class="nota">El modelo aprende de los ejemplos que tuvo, no "qué es un grano sano". Todo lo que no estaba en los datos (otro fondo, otro tipo de daño, suficientes ejemplos de una clase) puede hacerlo fallar.</div>
+</section>
+
+<section>
+  <h2>Para quien dicta</h2>
+  <details>
+    <summary>Respuestas de la carpeta de prueba</summary>
+    <ul>
+      <li>prueba-01: dañado (partido)</li><li>prueba-02: sano</li><li>prueba-03: dañado (manchado)</li>
+      <li>prueba-04: sano</li><li>prueba-05: dañado (manchado)</li><li>prueba-06: sano</li>
+      <li>prueba-07: sano</li><li>prueba-08: dañado (manchado)</li><li>prueba-09: sano</li>
+      <li>prueba-10: dañado (partido)</li><li>prueba-11: sano</li><li>prueba-12: dañado (partido)</li>
+    </ul>
+    <p>Las fotos de <code>desafio-fondo</code> tienen el mismo número que las de prueba (fondo-01 es prueba-01). Las de <code>desafio-no-visto</code> son todas granos dañados.</p>
+  </details>
+  <p class="chico">Probar el flujo completo antes de la clase: el resultado de cada desafío depende de cómo entrene el modelo ese día, y conviene saber qué va a pasar.</p>
+</section>
+
+<section>
+  <h2>De dónde salen las fotos</h2>
+  <p class="chico">Lin, W., Fu, Y., Xu, P., Liu, S., Ma, D., Jiang, Z., Zang, S., Yao, H. y Su, Q. (2023). <i>Soybean Seeds</i> (versión 6) [conjunto de datos]. Mendeley Data. <a href="https://doi.org/10.17632/v6vzvfszj6.6" target="_blank" rel="noopener">https://doi.org/10.17632/v6vzvfszj6.6</a>. Descripto en <i>Soybean image dataset for classification</i>, Data in Brief, 48, 109300 (<a href="https://doi.org/10.1016/j.dib.2023.109300" target="_blank" rel="noopener">doi:10.1016/j.dib.2023.109300</a>). Licencia <a href="https://creativecommons.org/licenses/by/4.0/deed.es" target="_blank" rel="noopener">CC BY 4.0</a>.</p>
+  <p class="chico">Cambios: se tomó una muestra de 78 fotos de cuatro clases, se renombraron los archivos y, en las de "otro fondo", se reemplazó el fondo negro por blanco.</p>
+</section>
+
+</main>
+</body>
+</html>
